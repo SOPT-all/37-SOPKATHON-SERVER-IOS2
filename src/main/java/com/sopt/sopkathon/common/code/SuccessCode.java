@@ -22,6 +22,7 @@ public enum SuccessCode implements BaseCode {
 	MY_PLACE_SAVED(HttpStatus.OK, "서핑 스팟 저장 성공"),
 	MY_SAVED_PLACES_FETCHED(HttpStatus.OK, "저장한 서핑 스팟 목록 조회 성공"),
 	MY_PLACE_DELETED(HttpStatus.OK, "저장된 스팟 삭제 성공"),
+	SUNSCREEN_ACTIVATION_SUCCESS(HttpStatus.OK, "선크림 바르기 활성화를 성공했습니다."),
 
 	// 장소 검색
 	PLACE_SEARCH_FETCHED(HttpStatus.OK, "서핑 스팟 검색 결과 조회를 성공했습니다.")

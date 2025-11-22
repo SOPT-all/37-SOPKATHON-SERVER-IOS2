@@ -21,7 +21,8 @@ public enum ErrorCode implements BaseCode {
 
 	// 마이페이지
 	ALREADY_SAVED(HttpStatus.CONFLICT, "이미 저장된 서핑 스팟입니다."),
-	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자 정보를 읽어올 수 없습니다.")
+	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자 정보를 읽어올 수 없습니다."),
+	SAVED_PLACE_NOT_FOUND(HttpStatus.NOT_FOUND, "저장되지 않은 장소 정보입니다.")
 	;
 
 	private final HttpStatus httpStatus;

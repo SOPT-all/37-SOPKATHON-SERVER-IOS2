@@ -78,4 +78,11 @@ public class SavedPlaceService {
 		// 존재하지 않아도 실패 응답 정의가 없으므로 idempotent 처리
 		savedPlaceRepository.deleteByIdAndUser_Id(savedPlaceId, FIXED_USER_ID);
 	}
+
+	@Transactional
+	public void activateSunscreen(Long savedPlaceId) {
+		var savedPlace = savedPlaceRepository.findByIdAndUser_Id(savedPlaceId, FIXED_USER_ID)
+			.orElseThrow(() -> new CustomException(ErrorCode.SAVED_PLACE_NOT_FOUND));
+		savedPlace.activateNow();
+	}
 }
