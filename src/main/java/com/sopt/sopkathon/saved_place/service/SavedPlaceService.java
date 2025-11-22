@@ -1,5 +1,8 @@
 package com.sopt.sopkathon.saved_place.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,6 +12,7 @@ import com.sopt.sopkathon.place.domain.Place;
 import com.sopt.sopkathon.place.repository.PlaceRepository;
 import com.sopt.sopkathon.saved_place.domain.SavedPlace;
 import com.sopt.sopkathon.saved_place.dto.SavePlaceResponse;
+import com.sopt.sopkathon.saved_place.dto.SavedPlaceListItemResponse;
 import com.sopt.sopkathon.saved_place.repository.SavedPlaceRepository;
 import com.sopt.sopkathon.user.domain.User;
 import com.sopt.sopkathon.user.repository.UserRepository;
@@ -43,5 +47,26 @@ public class SavedPlaceService {
 		);
 
 		return new SavePlaceResponse(saved.getId(), place.getName());
+	}
+
+	@Transactional(readOnly = true)
+	public List<SavedPlaceListItemResponse> getMySavedPlaces() {
+		if (!userRepository.existsById(FIXED_USER_ID)) {
+			throw new CustomException(ErrorCode.USER_NOT_FOUND);
+		}
+
+		return savedPlaceRepository.findAllByUser_Id(FIXED_USER_ID).stream()
+			.map(sp -> {
+				var p = sp.getPlace();
+				return new SavedPlaceListItemResponse(
+					sp.getId(),
+					p.getId(),
+					p.getName(),
+					p.getImageUrl(),
+					p.getLatitude(),
+					p.getLongitude()
+				);
+			})
+			.collect(Collectors.toList());
 	}
 }
