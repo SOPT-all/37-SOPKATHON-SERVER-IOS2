@@ -19,8 +19,8 @@ public enum SuccessCode implements BaseCode {
 	CREATED(HttpStatus.CREATED, "생성에 성공했습니다."),
 
 	// 마이페이지
-	MY_PLACE_SAVED(HttpStatus.OK, "서핑 스팟 저장 성공")
-
+	MY_PLACE_SAVED(HttpStatus.OK, "서핑 스팟 저장 성공"),
+	MY_SAVED_PLACES_FETCHED(HttpStatus.OK, "서핑 스팟 조회 성공")
 	;
 
 	private final HttpStatus httpStatus;
