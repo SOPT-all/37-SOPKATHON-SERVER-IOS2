@@ -27,6 +27,8 @@ public enum SuccessCode implements BaseCode {
 
 	// 장소 검색
 	PLACE_SEARCH_FETCHED(HttpStatus.OK, "서핑 스팟 검색 결과 조회를 성공했습니다."),
+	SPOT_DETAIL_FETCHED(HttpStatus.OK, "서핑 스팟 상세 정보 조회 성공"),
+	HOME_UV_FETCHED(HttpStatus.OK, "현재 위치의 자외선 관련 정보 조회 성공"),
 
 	// 선크림 체크리스트
 	SUNSCREEN_CHECKLIST_FETCHED(HttpStatus.OK, "선크림 바르는 시간 목록 조회를 성공했습니다."),
