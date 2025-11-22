@@ -44,4 +44,10 @@ public class MyPlaceController {
 		savedPlaceService.deleteMyPlace(savedPlaceId);
 		return ApiResponseBody.onSuccess(SuccessCode.MY_PLACE_DELETED);
 	}
+
+	@PostMapping("/{savedPlaceId}/sunscreen/activation")
+	public ApiResponseBody<Void> activateSunscreen(@PathVariable Long savedPlaceId) {
+		savedPlaceService.activateSunscreen(savedPlaceId);
+		return ApiResponseBody.onSuccess(SuccessCode.SUNSCREEN_ACTIVATION_SUCCESS);
+	}
 }
