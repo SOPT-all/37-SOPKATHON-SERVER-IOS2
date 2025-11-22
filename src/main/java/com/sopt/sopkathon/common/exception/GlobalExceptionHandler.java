@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.sopt.sopkathon.common.code.ErrorCode;
-import com.sopt.sopkathon.common.dto.ApiResponse;
+import com.sopt.sopkathon.common.dto.ApiResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,15 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(CustomException.class)
-	public ResponseEntity<ApiResponse<Void>> handleGeneralException(CustomException e) {
+	public ResponseEntity<ApiResponseBody<Void>> handleGeneralException(CustomException e) {
 		log.warn("[CustomException] Message = {}", e.getErrorStatus().getMessage());
 		return ResponseEntity
 			.status(e.getErrorStatus().getHttpStatus())
-			.body(ApiResponse.onFailure(e.getErrorStatus()));
+			.body(ApiResponseBody.onFailure(e.getErrorStatus()));
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ApiResponse<Void>> handleValidationException(MethodArgumentNotValidException e) {
+	public ResponseEntity<ApiResponseBody<Void>> handleValidationException(MethodArgumentNotValidException e) {
 		String errorMessage = e.getBindingResult().getFieldErrors().stream()
 			.map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
 			.collect(Collectors.joining(", "));
@@ -34,14 +34,14 @@ public class GlobalExceptionHandler {
 
 		return ResponseEntity
 			.status(ErrorCode.BAD_REQUEST.getHttpStatus())
-			.body(ApiResponse.onFailure(ErrorCode.BAD_REQUEST, errorMessage));
+			.body(ApiResponseBody.onFailure(ErrorCode.BAD_REQUEST, errorMessage));
 	}
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ApiResponse<Void>> handleException(Exception e) {
+	public ResponseEntity<ApiResponseBody<Void>> handleException(Exception e) {
 		log.error("[Internal Server Error] : ", e);
 		return ResponseEntity
 			.status(ErrorCode.INTERNAL_SERVER_ERROR.getHttpStatus())
-			.body(ApiResponse.onFailure(ErrorCode.INTERNAL_SERVER_ERROR));
+			.body(ApiResponseBody.onFailure(ErrorCode.INTERNAL_SERVER_ERROR));
 	}
 }
