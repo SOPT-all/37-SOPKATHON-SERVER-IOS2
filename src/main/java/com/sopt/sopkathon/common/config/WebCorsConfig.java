@@ -11,7 +11,7 @@ public class WebCorsConfig implements WebMvcConfigurer {
 		registry.addMapping("/**")
 			.allowedOrigins(
 				"http://localhost:8080",
-				"http://13.125.29.35:8080"
+				"https://api.sopkathon.p-e.kr"
 			)
 			.allowedMethods("GET","POST","PUT","PATCH","DELETE","OPTIONS")
 			.allowCredentials(true);

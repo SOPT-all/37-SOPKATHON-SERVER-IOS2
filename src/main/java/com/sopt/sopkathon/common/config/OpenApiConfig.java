@@ -17,7 +17,7 @@ public class OpenApiConfig {
 	public OpenAPI suntAOpenAPI() {
 		return new OpenAPI()
 			.addServersItem(new Server().url("http://localhost:8080").description("Local"))
-			.addServersItem(new Server().url("http://13.125.29.35:8080").description("Main Server"))
+			.addServersItem(new Server().url("https://api.sopkathon.p-e.kr").description("Main Server"))
 			.info(new Info()
 				.title("SUNTA, 살타 할아버지 Swagger")
 				.description("""
