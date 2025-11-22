@@ -30,5 +30,8 @@ jobs:
           host: ${{ secrets.PROD_EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.PROD_EC2_SSH_KEY }}
+          script_stop: true
+          command_timeout: 20m
           script: |
-            bash /home/ubuntu/deploy.sh prod
+            bash -lc "bash /home/ubuntu/deploy.sh prod"
+      

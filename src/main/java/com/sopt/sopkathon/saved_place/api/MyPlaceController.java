@@ -3,7 +3,9 @@ package com.sopt.sopkathon.saved_place.api;
 import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,20 +22,32 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/my/places")
+@RequestMapping("/my")
 public class MyPlaceController {
 
 	private final SavedPlaceService savedPlaceService;
 
-	@PostMapping
+	@PostMapping("/places")
 	public ApiResponseBody<SavePlaceResponse> saveMyPlace(@Validated @RequestBody SavePlaceRequest request) {
 		SavePlaceResponse response = savedPlaceService.saveMyPlace(request.placeId());
 		return ApiResponseBody.onSuccess(SuccessCode.MY_PLACE_SAVED, response);
 	}
 
-	@GetMapping
+	@GetMapping("/places")
 	public ApiResponseBody<List<SavedPlaceListItemResponse>> getMyPlaces() {
 		List<SavedPlaceListItemResponse> data = savedPlaceService.getMySavedPlaces();
 		return ApiResponseBody.onSuccess(SuccessCode.MY_SAVED_PLACES_FETCHED, data);
+	}
+
+	@DeleteMapping("/place/{savedPlaceId}")
+	public ApiResponseBody<Void> deleteMyPlace(@PathVariable Long savedPlaceId) {
+		savedPlaceService.deleteMyPlace(savedPlaceId);
+		return ApiResponseBody.onSuccess(SuccessCode.MY_PLACE_DELETED);
+	}
+
+	@PostMapping("/{savedPlaceId}/sunscreen/activation")
+	public ApiResponseBody<Void> activateSunscreen(@PathVariable Long savedPlaceId) {
+		savedPlaceService.activateSunscreen(savedPlaceId);
+		return ApiResponseBody.onSuccess(SuccessCode.SUNSCREEN_ACTIVATION_SUCCESS);
 	}
 }
