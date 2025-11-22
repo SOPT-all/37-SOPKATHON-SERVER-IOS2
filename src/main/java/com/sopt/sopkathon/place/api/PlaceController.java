@@ -42,7 +42,7 @@ public class PlaceController {
 		return ApiResponseBody.onSuccess(SPOT_DETAIL_FETCHED, placeDetailResponse);
 	}
 
-	@GetMapping("/home/uv?latitude={latitude}&longitude={longitude}")
+	@GetMapping("/home/uv")
 	public ApiResponseBody<HomeUvResponse> getHomeUV(
 		@RequestParam(name = "latitude") double latitude,
 		@RequestParam(name = "longitude") double longitude
