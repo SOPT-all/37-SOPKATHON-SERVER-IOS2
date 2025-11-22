@@ -26,7 +26,10 @@ public enum SuccessCode implements BaseCode {
 	SUNSCREEN_ACTIVATION_STATUS_FETCHED(HttpStatus.OK, "선크림 바르기 활성화 여부 조회를 성공했습니다."),
 
 	// 장소 검색
-	PLACE_SEARCH_FETCHED(HttpStatus.OK, "서핑 스팟 검색 결과 조회를 성공했습니다.")
+	PLACE_SEARCH_FETCHED(HttpStatus.OK, "서핑 스팟 검색 결과 조회를 성공했습니다."),
+
+	// 선크림 체크리스트
+	SUNSCREEN_CHECKLIST_FETCHED(HttpStatus.OK, "선크림 바르는 시간 목록 조회를 성공했습니다.")
 	;
 
 	private final HttpStatus httpStatus;
