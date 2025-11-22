@@ -1,7 +1,12 @@
 package com.sopt.sopkathon.place.service;
 
+import com.sopt.sopkathon.place.dto.PlaceDetailResponse;
+import com.sopt.sopkathon.uv_info.domain.UvInfo;
+import com.sopt.sopkathon.uv_info.service.OpenUVService;
+import com.sopt.sopkathon.uv_info.service.UvInfoService;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +19,13 @@ import com.sopt.sopkathon.place.repository.PlaceRepository;
 
 import lombok.RequiredArgsConstructor;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PlaceService {
 	private final PlaceRepository placeRepository;
+	private final OpenUVService openUVService;
+	private final UvInfoService uvInfoService;
 
 	@Transactional(readOnly = true)
 	public List<PlaceSearchResponse> searchPlaces(String keyword) {
@@ -45,6 +53,16 @@ public class PlaceService {
 		Place place = placeRepository.findById(placeId)
 			.orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
 		place.increaseViewCount();
+	}
+
+	public PlaceDetailResponse getDetailPlace(Long placeId) {
+		Place place = placeRepository.findById(placeId)
+			.orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+		double uv = openUVService.getCurrentUv(place.getLatitude(), place.getLongitude());
+		log.info("uv:{}", uv);
+		UvInfo uvInfo = uvInfoService.getUvInfoByValue(uv);
+
+		return PlaceDetailResponse.of(place, uv, uvInfo);
 	}
 
 }
