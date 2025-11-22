@@ -30,4 +30,7 @@ public class SavedPlace extends BaseTimeEntity {
 	@Column
 	private LocalDateTime activatedAt;
 
+	public void activateNow() {
+		this.activatedAt = LocalDateTime.now();
+	}
 }
