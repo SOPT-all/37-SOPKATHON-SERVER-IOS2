@@ -16,6 +16,8 @@ import com.sopt.sopkathon.common.dto.ApiResponseBody;
 import com.sopt.sopkathon.saved_place.dto.SavePlaceRequest;
 import com.sopt.sopkathon.saved_place.dto.SavePlaceResponse;
 import com.sopt.sopkathon.saved_place.dto.SavedPlaceListItemResponse;
+import com.sopt.sopkathon.saved_place.dto.SunscreenActivationStatusResponse;
+import com.sopt.sopkathon.saved_place.dto.SunscreenChecklistResponse;
 import com.sopt.sopkathon.saved_place.service.SavedPlaceService;
 
 import lombok.RequiredArgsConstructor;
@@ -49,5 +51,21 @@ public class MyPlaceController {
 	public ApiResponseBody<Void> activateSunscreen(@PathVariable Long savedPlaceId) {
 		savedPlaceService.activateSunscreen(savedPlaceId);
 		return ApiResponseBody.onSuccess(SuccessCode.SUNSCREEN_ACTIVATION_SUCCESS);
+	}
+
+	@GetMapping("/{savedPlaceId}/sunscreen/activation")
+	public ApiResponseBody<SunscreenActivationStatusResponse> getSunscreenActivationStatus(
+		@PathVariable Long savedPlaceId
+	) {
+		SunscreenActivationStatusResponse data = savedPlaceService.getSunscreenActivationStatus(savedPlaceId);
+		return ApiResponseBody.onSuccess(SuccessCode.SUNSCREEN_ACTIVATION_STATUS_FETCHED, data);
+	}
+
+	@GetMapping("/{savedPlaceId}/sunscreen/checklist")
+	public ApiResponseBody<SunscreenChecklistResponse> getSunscreenChecklist(
+		@PathVariable Long savedPlaceId
+	) {
+		SunscreenChecklistResponse data = savedPlaceService.getSunscreenChecklist(savedPlaceId);
+		return ApiResponseBody.onSuccess(SuccessCode.SUNSCREEN_CHECKLIST_FETCHED, data);
 	}
 }
