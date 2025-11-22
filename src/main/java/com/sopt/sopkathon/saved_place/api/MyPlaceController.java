@@ -20,39 +20,48 @@ import com.sopt.sopkathon.saved_place.dto.SunscreenActivationStatusResponse;
 import com.sopt.sopkathon.saved_place.dto.SunscreenChecklistResponse;
 import com.sopt.sopkathon.saved_place.service.SavedPlaceService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/my")
+@Tag(name = "MyPlace", description = "내가 저장한 스팟 관리 API")
 public class MyPlaceController {
 
 	private final SavedPlaceService savedPlaceService;
 
+	@Operation(summary = "서핑 스팟 저장", description = "사용자(고정 1L)가 선택한 장소를 저장합니다.")
 	@PostMapping("/places")
 	public ApiResponseBody<SavePlaceResponse> saveMyPlace(@Validated @RequestBody SavePlaceRequest request) {
 		SavePlaceResponse response = savedPlaceService.saveMyPlace(request.placeId());
 		return ApiResponseBody.onSuccess(SuccessCode.MY_PLACE_SAVED, response);
 	}
 
+	@Operation(summary = "저장한 스팟 목록 조회", description = "저장된 스팟 목록을 반환합니다.")
 	@GetMapping("/places")
 	public ApiResponseBody<List<SavedPlaceListItemResponse>> getMyPlaces() {
 		List<SavedPlaceListItemResponse> data = savedPlaceService.getMySavedPlaces();
 		return ApiResponseBody.onSuccess(SuccessCode.MY_SAVED_PLACES_FETCHED, data);
 	}
 
+	@Operation(summary = "저장한 스팟 삭제", description = "저장 목록에서 지정한 스팟을 삭제합니다.")
 	@DeleteMapping("/place/{savedPlaceId}")
 	public ApiResponseBody<Void> deleteMyPlace(@PathVariable Long savedPlaceId) {
 		savedPlaceService.deleteMyPlace(savedPlaceId);
 		return ApiResponseBody.onSuccess(SuccessCode.MY_PLACE_DELETED);
 	}
 
+	@Tag(name = "Sunscreen", description = "선크림 활성화/상태/체크리스트 API")
+	@Operation(summary = "선크림 바르기 시작", description = "해당 저장 장소의 선크림 활성화를 기록합니다.")
 	@PostMapping("/{savedPlaceId}/sunscreen/activation")
 	public ApiResponseBody<Void> activateSunscreen(@PathVariable Long savedPlaceId) {
 		savedPlaceService.activateSunscreen(savedPlaceId);
 		return ApiResponseBody.onSuccess(SuccessCode.SUNSCREEN_ACTIVATION_SUCCESS);
 	}
 
+	@Operation(summary = "선크림 활성화 여부 조회", description = "체크리스트 노출 여부(활성화 상태)를 반환합니다.")
 	@GetMapping("/{savedPlaceId}/sunscreen/activation")
 	public ApiResponseBody<SunscreenActivationStatusResponse> getSunscreenActivationStatus(
 		@PathVariable Long savedPlaceId
@@ -61,6 +70,7 @@ public class MyPlaceController {
 		return ApiResponseBody.onSuccess(SuccessCode.SUNSCREEN_ACTIVATION_STATUS_FETCHED, data);
 	}
 
+	@Operation(summary = "선크림 체크리스트 시간 목록", description = "활성화 시각 기준 0h, +2h, +4h 시간을 반환합니다. 미활성화 시 빈 목록.")
 	@GetMapping("/{savedPlaceId}/sunscreen/checklist")
 	public ApiResponseBody<SunscreenChecklistResponse> getSunscreenChecklist(
 		@PathVariable Long savedPlaceId
