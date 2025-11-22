@@ -20,7 +20,9 @@ public enum SuccessCode implements BaseCode {
 
 	// 마이페이지
 	MY_PLACE_SAVED(HttpStatus.OK, "서핑 스팟 저장 성공"),
-	MY_SAVED_PLACES_FETCHED(HttpStatus.OK, "서핑 스팟 조회 성공")
+	MY_SAVED_PLACES_FETCHED(HttpStatus.OK, "저장한 서핑 스팟 목록 조회 성공"),
+	MY_SAVED_PLACE_DELETED(HttpStatus.OK, "저장된 스팟 삭제 성공"),
+	MY_PLACE_DELETED(HttpStatus.OK, "저장된 스팟 삭제 성공")
 	;
 
 	private final HttpStatus httpStatus;

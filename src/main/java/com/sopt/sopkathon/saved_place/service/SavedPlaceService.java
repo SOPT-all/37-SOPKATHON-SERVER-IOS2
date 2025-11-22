@@ -69,4 +69,13 @@ public class SavedPlaceService {
 			})
 			.collect(Collectors.toList());
 	}
+
+	@Transactional
+	public void deleteMyPlace(Long savedPlaceId) {
+		if (!userRepository.existsById(FIXED_USER_ID)) {
+			throw new CustomException(ErrorCode.USER_NOT_FOUND);
+		}
+		// 존재하지 않아도 실패 응답 정의가 없으므로 idempotent 처리
+		savedPlaceRepository.deleteByIdAndUser_Id(savedPlaceId, FIXED_USER_ID);
+	}
 }
