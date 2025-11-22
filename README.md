@@ -1,0 +1,2 @@
+# 37-SOPKATHON-SERVER-IOS2
+DIVE SOPT 37기 솝커톤 IOS 2팀 서버파트 레포입니다.
