@@ -12,4 +12,6 @@ public interface SavedPlaceRepository extends JpaRepository<SavedPlace, Long> {
 
 	@EntityGraph(attributePaths = {"place"})
 	List<SavedPlace> findAllByUser_Id(Long userId);
+
+	long deleteByIdAndUser_Id(Long id, Long userId);
 }
