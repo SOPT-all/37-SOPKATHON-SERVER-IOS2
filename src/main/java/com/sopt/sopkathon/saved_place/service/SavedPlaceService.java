@@ -1,0 +1,47 @@
+package com.sopt.sopkathon.saved_place.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sopt.sopkathon.common.code.ErrorCode;
+import com.sopt.sopkathon.common.exception.CustomException;
+import com.sopt.sopkathon.place.domain.Place;
+import com.sopt.sopkathon.place.repository.PlaceRepository;
+import com.sopt.sopkathon.saved_place.domain.SavedPlace;
+import com.sopt.sopkathon.saved_place.dto.SavePlaceResponse;
+import com.sopt.sopkathon.saved_place.repository.SavedPlaceRepository;
+import com.sopt.sopkathon.user.domain.User;
+import com.sopt.sopkathon.user.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class SavedPlaceService {
+	private final SavedPlaceRepository savedPlaceRepository;
+	private final PlaceRepository placeRepository;
+	private final UserRepository userRepository;
+
+	private static final Long FIXED_USER_ID = 1L;
+
+	@Transactional
+	public SavePlaceResponse saveMyPlace(Long placeId) {
+		if (savedPlaceRepository.existsByUser_IdAndPlace_Id(FIXED_USER_ID, placeId)) {
+			throw new CustomException(ErrorCode.ALREADY_SAVED);
+		}
+
+		Place place = placeRepository.findById(placeId)
+			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
+
+		User user = userRepository.getReferenceById(FIXED_USER_ID);
+
+		SavedPlace saved = savedPlaceRepository.save(
+			SavedPlace.builder()
+				.user(user)
+				.place(place)
+				.build()
+		);
+
+		return new SavePlaceResponse(saved.getId(), place.getName());
+	}
+}
