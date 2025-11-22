@@ -1,5 +1,6 @@
 package com.sopt.sopkathon.place.service;
 
+import com.sopt.sopkathon.place.dto.HomeUvResponse;
 import com.sopt.sopkathon.place.dto.PlaceDetailResponse;
 import com.sopt.sopkathon.uv_info.domain.UvInfo;
 import com.sopt.sopkathon.uv_info.service.OpenUVService;
@@ -55,6 +56,7 @@ public class PlaceService {
 		place.increaseViewCount();
 	}
 
+	@Transactional(readOnly = true)
 	public PlaceDetailResponse getDetailPlace(Long placeId) {
 		Place place = placeRepository.findById(placeId)
 			.orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
@@ -63,6 +65,14 @@ public class PlaceService {
 		UvInfo uvInfo = uvInfoService.getUvInfoByValue(uv);
 
 		return PlaceDetailResponse.of(place, uv, uvInfo);
+	}
+
+	@Transactional(readOnly = true)
+	public HomeUvResponse getHomeUv(double latitude, double longitude) {
+		double uv = openUVService.getCurrentUv(latitude, longitude);
+		UvInfo uvInfo = uvInfoService.getUvInfoByValue(uv);
+
+		return HomeUvResponse.of(uv, uvInfo);
 	}
 
 }

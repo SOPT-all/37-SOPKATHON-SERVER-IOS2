@@ -1,23 +1,21 @@
 package com.sopt.sopkathon.place.api;
 
+import static com.sopt.sopkathon.common.code.SuccessCode.HOME_UV_FETCHED;
 import static com.sopt.sopkathon.common.code.SuccessCode.SPOT_DETAIL_FETCHED;
 
+import com.sopt.sopkathon.common.code.SuccessCode;
+import com.sopt.sopkathon.common.dto.ApiResponseBody;
+import com.sopt.sopkathon.place.dto.HomeUvResponse;
+import com.sopt.sopkathon.place.dto.HotPlaceResponse;
 import com.sopt.sopkathon.place.dto.PlaceDetailResponse;
+import com.sopt.sopkathon.place.dto.PlaceSearchResponse;
+import com.sopt.sopkathon.place.service.PlaceService;
 import java.util.List;
-
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.sopt.sopkathon.common.code.SuccessCode;
-import com.sopt.sopkathon.common.dto.ApiResponseBody;
-import com.sopt.sopkathon.place.dto.HotPlaceResponse;
-import com.sopt.sopkathon.place.dto.PlaceSearchResponse;
-import com.sopt.sopkathon.place.service.PlaceService;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,11 +35,20 @@ public class PlaceController {
 	}
 
 	@GetMapping("/places/{placeId}/detail")
-	public ResponseEntity<ApiResponseBody<PlaceDetailResponse>> getPlaceDetail(
+	public ApiResponseBody<PlaceDetailResponse> getPlaceDetail(
 		@PathVariable Long placeId
 	) {
 		PlaceDetailResponse placeDetailResponse = placeService.getDetailPlace(placeId);
-		return ResponseEntity.status(200)
-			.body(ApiResponseBody.onSuccess(SPOT_DETAIL_FETCHED, placeDetailResponse));
+		return ApiResponseBody.onSuccess(SPOT_DETAIL_FETCHED, placeDetailResponse);
+	}
+
+	@GetMapping("/home/uv?latitude={latitude}&longitude={longitude}")
+	public ApiResponseBody<HomeUvResponse> getHomeUV(
+		@RequestParam(name = "latitude") double latitude,
+		@RequestParam(name = "longitude") double longitude
+	) {
+		HomeUvResponse homeUvResponse = placeService.getHomeUv(latitude, longitude);
+
+		return ApiResponseBody.onSuccess(HOME_UV_FETCHED, homeUvResponse);
 	}
 }
