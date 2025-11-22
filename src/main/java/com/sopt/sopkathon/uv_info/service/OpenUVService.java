@@ -11,7 +11,7 @@ public class OpenUVService {
 
     private final RestClient restClient;
 
-    private static final String apiKey = "openuv-4uokrmia9k1hq-io";
+    private static final String apiKey = "openuv-4uokrmiaxdsl3-io";
 
     public double getCurrentUv(double lat, double lng) {
         OpenUvResponse response = restClient.get()
