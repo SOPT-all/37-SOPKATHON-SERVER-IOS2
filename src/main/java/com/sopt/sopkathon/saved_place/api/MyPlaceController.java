@@ -53,7 +53,6 @@ public class MyPlaceController {
 		return ApiResponseBody.onSuccess(SuccessCode.MY_PLACE_DELETED);
 	}
 
-	@Tag(name = "Sunscreen", description = "선크림 활성화/상태/체크리스트 API")
 	@Operation(summary = "선크림 바르기 시작", description = "해당 저장 장소의 선크림 활성화를 기록합니다.")
 	@PostMapping("/{savedPlaceId}/sunscreen/activation")
 	public ApiResponseBody<Void> activateSunscreen(@PathVariable Long savedPlaceId) {
