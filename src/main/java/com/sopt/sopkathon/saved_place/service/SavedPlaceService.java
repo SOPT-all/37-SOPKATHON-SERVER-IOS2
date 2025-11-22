@@ -13,6 +13,7 @@ import com.sopt.sopkathon.place.repository.PlaceRepository;
 import com.sopt.sopkathon.saved_place.domain.SavedPlace;
 import com.sopt.sopkathon.saved_place.dto.SavePlaceResponse;
 import com.sopt.sopkathon.saved_place.dto.SavedPlaceListItemResponse;
+import com.sopt.sopkathon.saved_place.dto.SunscreenActivationStatusResponse;
 import com.sopt.sopkathon.saved_place.repository.SavedPlaceRepository;
 import com.sopt.sopkathon.user.domain.User;
 import com.sopt.sopkathon.user.repository.UserRepository;
@@ -84,5 +85,13 @@ public class SavedPlaceService {
 		var savedPlace = savedPlaceRepository.findByIdAndUser_Id(savedPlaceId, FIXED_USER_ID)
 			.orElseThrow(() -> new CustomException(ErrorCode.SAVED_PLACE_NOT_FOUND));
 		savedPlace.activateNow();
+	}
+
+	@Transactional(readOnly = true)
+	public SunscreenActivationStatusResponse getSunscreenActivationStatus(Long savedPlaceId) {
+		var savedPlace = savedPlaceRepository.findByIdAndUser_Id(savedPlaceId, FIXED_USER_ID)
+			.orElseThrow(() -> new CustomException(ErrorCode.SAVED_PLACE_NOT_FOUND));
+		boolean activated = savedPlace.getActivatedAt() != null;
+		return new SunscreenActivationStatusResponse(activated);
 	}
 }
