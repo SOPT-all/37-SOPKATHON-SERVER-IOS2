@@ -28,4 +28,10 @@ public class Place extends BaseTimeEntity {
 	@Column(nullable = false)
 	private double longitude;
 
+	@Column(nullable = false)
+	private long viewCount;
+
+	public void increaseViewCount() {
+		this.viewCount++;
+	}
 }
