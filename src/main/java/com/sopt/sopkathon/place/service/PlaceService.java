@@ -60,10 +60,11 @@ public class PlaceService {
 	public PlaceDetailResponse getDetailPlace(Long placeId) {
 		Place place = placeRepository.findById(placeId)
 			.orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+		log.info("place:{}", place);
 		double uv = openUVService.getCurrentUv(place.getLatitude(), place.getLongitude());
 		log.info("uv:{}", uv);
 		UvInfo uvInfo = uvInfoService.getUvInfoByValue(uv);
-
+		log.info("uvInfo:{} ", uvInfo);
 		return PlaceDetailResponse.of(place, uv, uvInfo);
 	}
 
