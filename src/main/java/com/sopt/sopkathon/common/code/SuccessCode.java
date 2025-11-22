@@ -29,7 +29,11 @@ public enum SuccessCode implements BaseCode {
 	PLACE_SEARCH_FETCHED(HttpStatus.OK, "서핑 스팟 검색 결과 조회를 성공했습니다."),
 
 	// 선크림 체크리스트
-	SUNSCREEN_CHECKLIST_FETCHED(HttpStatus.OK, "선크림 바르는 시간 목록 조회를 성공했습니다.")
+	SUNSCREEN_CHECKLIST_FETCHED(HttpStatus.OK, "선크림 바르는 시간 목록 조회를 성공했습니다."),
+
+	// 인기 스팟
+	HOT_PLACES_FETCHED(HttpStatus.OK, "인기 서핑 스팟 목록 조회 성공")
+
 	;
 
 	private final HttpStatus httpStatus;
