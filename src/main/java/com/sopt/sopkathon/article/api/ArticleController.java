@@ -1,4 +1,4 @@
-package com.sopt.sopkathon.article.controller;
+package com.sopt.sopkathon.article.api;
 
 import static com.sopt.sopkathon.common.code.SuccessCode.ARTICLE_GET_SUCCESS;
 
