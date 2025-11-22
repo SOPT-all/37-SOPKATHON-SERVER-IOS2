@@ -30,5 +30,7 @@ jobs:
           host: ${{ secrets.DEV_EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.DEV_EC2_SSH_KEY }}
+          script_stop: true
+          command_timeout: 20m
           script: |
-            bash /home/ubuntu/deploy.sh dev
+            bash -lc "bash /home/ubuntu/deploy.sh dev"
